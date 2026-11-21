@@ -5,6 +5,8 @@ A bilingual (English / Arabic) static website for presenting Odoo apps and busin
 ## Included
 - Responsive premium-style homepage
 - English / Arabic language toggle (saved in the visitor's browser)
+- Light / dark theme toggle (saved in the visitor's browser)
+- Contact links configured for email and WhatsApp
 - App catalogue with category filters
 - Detail pages for Employee Custody and Employee Loan
 - "In development" placeholders for Trade Finance and Accounting Suite
@@ -12,8 +14,7 @@ A bilingual (English / Arabic) static website for presenting Odoo apps and busin
 - GitHub Pages-ready static files
 
 ## Before publishing
-1. Open `assets/site.js` and replace the sample email address in `index.html`:
-   - `hello@example.com` with your business email.
+1. Contact email and WhatsApp are configured in `index.html`: `mohamed.ahmed.dev92@gmail.com` and `+201556206489`.
 2. Review each app's description and feature list against the exact release you intend to distribute.
 3. Add your real product screenshots and demo videos when ready. The dashboard visuals currently shown are illustrative concepts, not actual Odoo screenshots.
 4. Add ZIP packages only when you are ready to publish and have confirmed the code is safe to distribute.
