@@ -9,7 +9,7 @@ A bilingual (English / Arabic) static website for presenting Odoo apps and busin
 - Contact links configured for email and WhatsApp
 - App catalogue with category filters
 - Detail pages for Employee Custody and Employee Loan
-- "In development" placeholders for Trade Finance and Accounting Suite
+- "In development" placeholder for Trade Finance
 - Contact CTA via email
 - GitHub Pages-ready static files
 
@@ -44,3 +44,9 @@ GitHub Pages hosts static websites. It does not provide built-in user accounts, 
 - Add module version / edition / dependencies / license information.
 - Add a proper privacy policy and terms before collecting visitor information or selling modules.
 - Prepare release ZIPs and documentation before enabling download links.
+
+
+## Product admin
+Open `admin.html` on the published website to manage the catalogue. Drafts are kept in this browser only. To publish, enter the GitHub repository as `owner/repository`, branch, and a fine-grained GitHub token with **Contents: Read and write** access to that repository. The token is held in page memory only and is not saved to browser storage. Product data is written to `data/products.json`; uploaded screenshots are stored under `assets/shots/`.
+
+Use HTTPS and keep the admin URL private. GitHub Pages is static hosting: this admin page is not an independent server-side login system. Anyone who can open the admin page can see the form, but publishing still requires your GitHub token. Never share the token or place it in website source files.
