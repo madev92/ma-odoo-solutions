@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>لوحة التحكم | MA Odoo Solutions</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css"><link rel="stylesheet" href="assets/extra.css">
+<style>body{font-family:Cairo,sans-serif;background:var(--paper)}</style></head>
+<body class="arabic"><header class="site-header"><div class="container nav-wrap"><a class="brand" href="index.html"><span class="brand-mark">MA</span><span class="brand-copy"><strong>لوحة التحكم</strong><small>إدارة المنتجات</small></span></a><a class="button button-small button-primary" href="index.html">← الموقع</a></div></header>
+<div class="container admin-wrap">
+<aside class="panel"><div class="btns" style="margin:0 0 14px"><button class="btn2" id="newBtn">＋ منتج جديد</button></div><div class="admin-list" id="list"></div>
+<hr style="border:0;border-top:1px solid var(--line);margin:18px 0"><b style="font-size:13px">النشر على GitHub</b>
+<label>اسم المستخدم / المستودع</label><input id="repo" placeholder="username/ma-odoo-solutions" dir="ltr">
+<label>Branch</label><input id="branch" value="main" dir="ltr">
+<label>Personal Access Token</label><input id="token" type="password" dir="ltr" placeholder="github_pat_...">
+<p class="hint">Fine-grained token بصلاحية Contents: Read and write على المستودع ده بس. بيتحفظ في الجلسة الحالية فقط.</p>
+<div class="btns"><button class="btn2" id="pubBtn" style="background:var(--blue);color:#fff;border-color:var(--blue)">نشر التغييرات</button><button class="btn2" id="expBtn">تصدير products.json</button><button class="btn2" id="resetBtn">تجاهل المسودة</button></div><div id="msg"></div></aside>
+<section class="panel" id="formPanel"></section></div>
+<script>
+const CATS={hr:'الموارد البشرية والرواتب',finance:'المالية',operations:'العمليات',other:'أخرى'};
+let items=[],cur=null;const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const msg=(t,ok=true)=>{$('msg').textContent=t;$('msg').style.color=ok?'#1a8f7a':'#d6455d'};
+const draft=()=>localStorage.setItem('ma-draft',JSON.stringify(items));
+async function init(){const d=localStorage.getItem('ma-draft');
+ if(d){items=JSON.parse(d)}else{try{items=await(await fetch('data/products.json?v='+Date.now())).json()}catch(e){items=[]}}
+ ['repo','branch'].forEach(k=>{const v=localStorage.getItem('ma-'+k);if(v)$(k).value=v});$('token').value=sessionStorage.getItem('ma-token')||'';
+ cur=items[0]?.id||null;render()}
+function render(){$('list').innerHTML=items.map(p=>`<div class="item ${p.id===cur?'sel':''}" data-id="${esc(p.id)}"><b>${esc(p.nameAr||p.nameEn||p.id)}</b><small>${p.status==='coming'?'قريبًا':'متاح'}</small></div>`).join('')||'<p class="hint">لا توجد منتجات.</p>';
+ document.querySelectorAll('.item').forEach(e=>e.onclick=()=>{cur=e.dataset.id;render()});form()}
+function form(){const p=items.find(x=>x.id===cur);if(!p){$('formPanel').innerHTML='<p>اختار منتج أو اضغط «منتج جديد».</p>';return}
+ const f=(k,l,t='input')=>t==='input'?`<label>${l}</label><input id="f_${k}" value="${esc(p[k])}">`:`<label>${l}</label><textarea id="f_${k}">${esc(Array.isArray(p[k])?p[k].join('\n'):p[k])}</textarea>`;
+ $('formPanel').innerHTML=`<div class="row2">${f('nameAr','الاسم (عربي)')}${f('nameEn','الاسم (English)')}</div>
+ <div class="row2"><div><label>الفئة</label><select id="f_category">${Object.entries(CATS).map(([k,v])=>`<option value="${k}" ${p.category===k?'selected':''}>${v}</option>`).join('')}</select></div><div><label>الحالة</label><select id="f_status"><option value="available" ${p.status!=='coming'?'selected':''}>متاح</option><option value="coming" ${p.status==='coming'?'selected':''}>قيد التطوير</option></select></div></div>
+ <div class="row2">${f('version','الإصدار')}${f('edition','Edition')}</div>
+ <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="f_implementation" style="width:auto" ${p.implementation?'checked':''}> متاح بتنفيذ كامل (Full implementation)</label>
+ ${f('descAr','الوصف (عربي)','ta')}${f('descEn','الوصف (English)','ta')}
+ ${f('featuresAr','المميزات بالعربي — سطر لكل ميزة: العنوان | الشرح','ta')}${f('featuresEn','Features (EN) — one per line: Title | description','ta')}
+ <label>لقطات الشاشة</label><input type="file" id="shots" accept="image/*" multiple><div class="thumbs">${(p.screenshots||[]).map((s,i)=>`<div><img src="${esc(s)}"><button data-i="${i}" title="حذف">×</button></div>`).join('')}</div>
+ <div class="btns"><button class="btn2" id="saveBtn" style="background:var(--blue);color:#fff;border-color:var(--blue)">حفظ كمسودة</button><button class="btn2 danger" id="delBtn">حذف المنتج</button></div>`;
+ $('saveBtn').onclick=save;$('delBtn').onclick=()=>{if(confirm('حذف المنتج نهائيًا؟')){items=items.filter(x=>x.id!==cur);cur=items[0]?.id||null;draft();render();msg('تم الحذف (انشر التغييرات عشان يظهر في الموقع)')}};
+ document.querySelectorAll('.thumbs button').forEach(b=>b.onclick=()=>{p.screenshots.splice(+b.dataset.i,1);draft();form()});
+ $('shots').onchange=async e=>{for(const file of e.target.files){p.screenshots=p.screenshots||[];p.screenshots.push(await shrink(file))}draft();form();msg('تمت إضافة الصور')}}
+function save(){const p=items.find(x=>x.id===cur),g=k=>$('f_'+k).value.trim(),lines=k=>g(k).split('\n').map(s=>s.trim()).filter(Boolean);
+ Object.assign(p,{nameAr:g('nameAr'),nameEn:g('nameEn'),category:g('category'),status:g('status'),version:g('version'),edition:g('edition'),implementation:$('f_implementation').checked,descAr:g('descAr'),descEn:g('descEn'),featuresAr:lines('featuresAr'),featuresEn:lines('featuresEn')});
+ if(!p.nameEn&&!p.nameAr)return msg('اكتب اسم المنتج',false);draft();render();msg('تم الحفظ كمسودة — اضغط «نشر التغييرات» لإظهاره في الموقع')}
+$('newBtn').onclick=()=>{const id='product-'+Date.now().toString(36);items.push({id,category:'hr',status:'available',version:'Odoo 18',edition:'Enterprise',implementation:true,nameAr:'',nameEn:'New product',descAr:'',descEn:'',featuresAr:[],featuresEn:[],screenshots:[]});cur=id;draft();render()};
+function shrink(file){return new Promise(r=>{const im=new Image,fr=new FileReader;fr.onload=()=>{im.onload=()=>{const w=Math.min(1400,im.width),h=im.height*w/im.width,c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(im,0,0,w,h);r(c.toDataURL('image/jpeg',.82))};im.src=fr.result};fr.readAsDataURL(file)})}
+$('expBtn').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(items,null,1)],{type:'application/json'}));a.download='products.json';a.click()};
+$('resetBtn').onclick=()=>{if(confirm('تجاهل المسودة والرجوع للنسخة المنشورة؟')){localStorage.removeItem('ma-draft');init()}};
+async function gh(path,body){const[r,b]=[$('repo').value.trim(),$('branch').value.trim()||'main'],h={Authorization:'Bearer '+$('token').value.trim(),Accept:'application/vnd.github+json'},u=`https://api.github.com/repos/${r}/contents/${path}`;
+ let sha;const g=await fetch(u+'?ref='+b,{headers:h});if(g.ok)sha=(await g.json()).sha;
+ const x=await fetch(u,{method:'PUT',headers:h,body:JSON.stringify({message:'Update '+path,content:body,branch:b,sha})});if(!x.ok)throw new Error(path+': '+(await x.json()).message)}
+const b64=s=>btoa(unescape(encodeURIComponent(s)));
+$('pubBtn').onclick=async()=>{if(!$('repo').value||!$('token').value)return msg('اكتب المستودع والـ Token',false);
+ localStorage.setItem('ma-repo',$('repo').value);localStorage.setItem('ma-branch',$('branch').value);sessionStorage.setItem('ma-token',$('token').value);
+ try{msg('جاري النشر...');for(const p of items){for(let i=0;i<(p.screenshots||[]).length;i++){const s=p.screenshots[i];if(s.startsWith('data:')){const path=`assets/shots/${p.id}-${Date.now().toString(36)}-${i}.jpg`;await gh(path,s.split(',')[1]);p.screenshots[i]=path}}}
+ await gh('data/products.json',b64(JSON.stringify(items,null,1)));draft();render();msg('تم النشر ✓ — الموقع هيتحدث خلال دقيقة أو اتنين')}catch(e){msg('فشل النشر: '+e.message,false)}};
+init();
+</script></body></html>

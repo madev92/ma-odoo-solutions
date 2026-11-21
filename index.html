@@ -4,12 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#101827">
-  <meta name="description" content="MA Odoo Solutions — full Odoo implementation, business analysis and purpose-built Odoo apps.">
-  <title>MA Odoo Solutions | Full Odoo Implementation & Business Apps</title>
+  <meta name="description" content="MA Odoo Solutions — practical Odoo apps and business-focused ERP workflows.">
+  <title>MA Odoo Solutions | Odoo Apps & Business Workflows</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="assets/extra.css">
 </head>
 <body>
   <div class="announcement"><span class="announcement-dot"></span><span data-i18n="announcement">Purpose-built Odoo solutions for real business operations</span></div>
@@ -21,7 +22,7 @@
       <button class="mobile-menu" id="mobileMenu" aria-label="Open menu">☰</button>
       <nav class="main-nav" id="mainNav">
         <a href="#apps" data-i18n="navApps">Apps</a>
-        <a href="#implementation" data-i18n="navImplementation">Implementation</a>
+        <a href="#implementation" data-i18n="navImpl">Implementation</a>
         <a href="#approach" data-i18n="navApproach">Our approach</a>
         <a href="#about" data-i18n="navAbout">About</a>
         <a href="#contact" data-i18n="navContact">Contact</a>
@@ -73,32 +74,27 @@
       <div class="container hero-bottom"><span data-i18n="heroBottom">PRACTICAL MODULES. CLEARER PROCESSES. BETTER CONTROL.</span><div class="hero-bottom-line"></div><span>MA / 2026</span></div>
     </section>
 
-    <section class="implementation-section" id="implementation">
-      <div class="container implementation-grid">
-        <div class="implementation-copy">
-          <div class="eyebrow"><span class="eyebrow-line"></span><span data-i18n="implEyebrow">END-TO-END ERP DELIVERY</span></div>
-          <h2 data-i18n="implTitle">Full Odoo<br><em>Implementation.</em></h2>
-          <p data-i18n="implLead">From business analysis to go-live and continuous improvement — one connected implementation journey built around how your company operates.</p>
-          <a class="button button-primary" href="#contact" data-i18n="implCta">Discuss your implementation <span>↗</span></a>
-        </div>
-        <div class="implementation-steps">
-          <article><span>01</span><div><h3 data-i18n="implStep1">Discovery & business analysis</h3><p data-i18n="implStep1d">Understand departments, workflows, pain points and reporting needs.</p></div></article>
-          <article><span>02</span><div><h3 data-i18n="implStep2">Solution design & configuration</h3><p data-i18n="implStep2d">Map requirements to standard Odoo and define justified extensions.</p></div></article>
-          <article><span>03</span><div><h3 data-i18n="implStep3">Data migration, testing & training</h3><p data-i18n="implStep3d">Prepare data, validate end-to-end scenarios and enable your team.</p></div></article>
-          <article><span>04</span><div><h3 data-i18n="implStep4">Go-live & ongoing support</h3><p data-i18n="implStep4d">Launch with a clear plan, stabilize operations and keep improving.</p></div></article>
-        </div>
-      </div>
-    </section>
-
     <section class="section apps-section" id="apps">
       <div class="container">
         <div class="section-heading">
           <div><div class="eyebrow dark"><span class="eyebrow-line"></span><span data-i18n="appsEyebrow">THE APP COLLECTION</span></div><h2 data-i18n="appsTitle">Tools for the work<br><em>behind your business.</em></h2></div>
           <p data-i18n="appsIntro">Explore focused Odoo solutions designed to bring structure, visibility and accountability to everyday operations.</p>
         </div>
-        <div class="filter-row"><span data-i18n="filterLabel">BROWSE BY CATEGORY</span><div class="filters"><button class="filter active" data-filter="all" data-i18n="filterAll">All solutions</button><button class="filter" data-filter="hr" data-i18n="filterHr">HR & Payroll</button><button class="filter" data-filter="operations" data-i18n="filterOps">Operations</button></div></div>
-        <div class="app-grid" id="productGrid" aria-live="polite"></div>
+        <div class="filter-row"><span data-i18n="filterLabel">BROWSE BY CATEGORY</span><div class="filters" id="filters"></div></div>
+        <div class="app-grid" id="appGrid"></div>
         <div class="apps-footnote"><span class="footnote-icon">i</span><span data-i18n="appsDisclaimer">Product availability, supported versions and feature scope are confirmed on each module's detail page. Some solutions are still in development.</span></div>
+      </div>
+    </section>
+
+    <section class="section impl-section" id="implementation">
+      <div class="container">
+        <div class="section-heading"><div><div class="eyebrow dark"><span class="eyebrow-line"></span><span data-i18n="implEyebrow">FULL IMPLEMENTATION</span></div><h2 data-i18n="implTitle">Not just a module.<br><em>A complete rollout.</em></h2></div><p data-i18n="implIntro">Every product can be delivered as a full implementation — from analysis to go-live and support — not only as code.</p></div>
+        <div class="impl-grid">
+          <article><span>01</span><h3 data-i18n="impl1">Gap analysis</h3><p data-i18n="impl1d">Compare your process with standard Odoo and decide what stays standard and what needs customization.</p></article>
+          <article><span>02</span><h3 data-i18n="impl2">Setup & configuration</h3><p data-i18n="impl2d">Install, configure and adapt the product to your company structure, roles and approvals.</p></article>
+          <article><span>03</span><h3 data-i18n="impl3">Data migration</h3><p data-i18n="impl3d">Move records from your current system and validate them before go-live.</p></article>
+          <article><span>04</span><h3 data-i18n="impl4">Training & support</h3><p data-i18n="impl4d">Train your users and stay available after go-live until the process runs smoothly.</p></article>
+        </div>
       </div>
     </section>
 
@@ -132,7 +128,8 @@
       </div>
     </section>
   </main>
-  <footer class="site-footer"><div class="container footer-wrap"><a class="brand footer-brand" href="#top"><span class="brand-mark">MA</span><span class="brand-copy"><strong>MA Odoo Solutions</strong><small>Business Apps & ERP Solutions</small></span></a><span>© <span id="year"></span> MA Odoo Solutions. <span data-i18n="rights">All rights reserved.</span></span><a href="https://app.pagescms.org/" target="_blank" rel="noopener noreferrer" class="footer-admin" data-i18n="manageProducts">Manage products ↗</a><a href="#top" class="back-top" data-i18n="backTop">Back to top ↑</a></div></footer>
+  <footer class="site-footer"><div class="container footer-wrap"><a class="brand footer-brand" href="#top"><span class="brand-mark">MA</span><span class="brand-copy"><strong>MA Odoo Solutions</strong><small>Business Apps & ERP Solutions</small></span></a><span>© <span id="year"></span> MA Odoo Solutions. <span data-i18n="rights">All rights reserved.</span></span><a href="#top" class="back-top" data-i18n="backTop">Back to top ↑</a></div></footer>
   <script src="assets/site.js"></script>
+  <script src="assets/store.js"></script>
 </body>
 </html>
