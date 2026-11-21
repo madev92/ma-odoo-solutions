@@ -35,7 +35,7 @@ body{font-family:Cairo,sans-serif;background:var(--paper)}.admin-top{border-bott
 <main class="container admin-wrap">
 <aside class="panel admin-sidebar">
 <div class="admin-head"><div><h2>المنتجات</h2><p>إدارة المنتجات وتفاصيلها</p></div></div>
-<button class="btn2" id="newBtn" style="width:100%;background:var(--blue);color:#fff;border-color:var(--blue)">＋ إضافة منتج</button>
+<button type="button" class="btn2" id="newBtn" style="width:100%;background:var(--blue);color:#fff;border-color:var(--blue)">＋ إضافة منتج</button>
 <div class="admin-list" id="list" style="margin-top:14px"></div>
 <hr style="border:0;border-top:1px solid var(--line);margin:20px 0">
 <h2>النشر على GitHub</h2>
@@ -43,8 +43,9 @@ body{font-family:Cairo,sans-serif;background:var(--paper)}.admin-top{border-bott
 <label for="branch">Branch</label><input id="branch" value="main" dir="ltr" autocomplete="off">
 <label for="token">GitHub Personal Access Token</label><input id="token" type="password" dir="ltr" placeholder="github_pat_..." autocomplete="new-password">
 <p class="hint">أنشئ Fine-grained token بصلاحية Contents: Read and write لهذا المستودع فقط. لن يتم حفظ الرمز في المتصفح أو إضافته إلى ملفات الموقع.</p>
-<div class="btns"><button class="btn2" id="pubBtn" style="background:var(--blue);color:#fff;border-color:var(--blue)">نشر التحديثات</button><button class="btn2" id="expBtn">تصدير JSON</button><button class="btn2" id="resetBtn">التراجع عن المسودة</button></div>
+<div class="btns"><button type="button" class="btn2" id="pubBtn" style="background:var(--blue);color:#fff;border-color:var(--blue)">نشر التحديثات</button><button type="button" class="btn2" id="expBtn">تصدير JSON</button><button type="button" class="btn2" id="resetBtn">التراجع عن المسودة</button></div>
 <div id="msg" role="status" aria-live="polite"></div>
+<div id="publishDetails" class="admin-notice" hidden></div>
 <div class="admin-notice">يتم حفظ المسودات على هذا المتصفح فقط. عند النشر، تُرفع تفاصيل المنتجات والصور إلى GitHub، ثم يُحدّث GitHub Pages الموقع تلقائيًا. ملحوظة: لوحة التحكم لا تحتوي على نظام تسجيل دخول مستقل؛ لذلك تعتمد صلاحية النشر على أمان GitHub Token.</div>
 </aside>
 <section class="panel" id="formPanel"><div class="admin-empty">جاري تحميل المنتجات…</div></section>
@@ -62,7 +63,7 @@ async function init(){
  const d=localStorage.getItem('ma-draft');
  if(d){try{items=JSON.parse(d)}catch{localStorage.removeItem('ma-draft')}}
  if(!items.length){try{const r=await fetch('data/products.json?v='+Date.now());if(!r.ok)throw Error('HTTP '+r.status);items=await r.json()}catch(e){items=[];msg('تعذر تحميل المنتجات: '+e.message,false)}}
- $('repo').value=localStorage.getItem('ma-repo')||'';
+ $('repo').value=localStorage.getItem('ma-repo')||'momo46060/ma-odoo-solutions';
  $('branch').value=localStorage.getItem('ma-branch')||'main';
  cur=items[0]?.id||null;render();
 }
@@ -96,6 +97,11 @@ function form(){
  <div class="thumbs">${(p.screenshots||[]).map((s,i)=>`<div class="thumb"><img src="${esc(s)}" alt="لقطة شاشة ${i+1}"><button type="button" data-i="${i}" title="حذف الصورة" aria-label="حذف الصورة">×</button><span>${esc(s.split('/').pop())}</span></div>`).join('')}</div>
  <div class="btns"><button class="btn2" id="saveBtn" style="background:var(--blue);color:#fff;border-color:var(--blue)">حفظ المسودة</button><button class="btn2 danger" id="delBtn">حذف المنتج</button></div>`;
  $('saveBtn').onclick=save;
+ // Keep the in-memory product and local draft synchronized while the user edits.
+ $('formPanel').querySelectorAll('input:not([type=file]),textarea,select').forEach(el=>{
+  el.addEventListener('input',()=>save(false));
+  el.addEventListener('change',()=>save(false));
+ });
  $('delBtn').onclick=()=>{if(confirm('هل أنت متأكد من حذف المنتج؟ لن يختفي من الموقع إلا بعد النشر.')){items=items.filter(x=>x.id!==cur);cur=items[0]?.id||null;draft();render();msg('تم حذف المنتج من المسودة. انشر التحديثات لتطبيق التغيير على الموقع.')}};
  document.querySelectorAll('.thumbs button').forEach(b=>b.onclick=()=>{save(false);p.screenshots.splice(+b.dataset.i,1);draft();form();msg('تم حذف الصورة من المسودة.')});
  $('shots').onchange=async e=>{
@@ -119,42 +125,86 @@ $('newBtn').onclick=()=>{
  items.push(p);cur=p.id;draft();render();
 };
 function shrink(file){return new Promise((resolve,reject)=>{const im=new Image,fr=new FileReader;fr.onerror=()=>reject(Error('تعذر قراءة الصورة'));fr.onload=()=>{im.onerror=()=>reject(Error('صيغة صورة غير مدعومة'));im.onload=()=>{const w=Math.min(1500,im.width),h=Math.round(im.height*w/im.width),c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(im,0,0,w,h);resolve(c.toDataURL('image/jpeg',.8))};im.src=fr.result};fr.readAsDataURL(file)})}
-$('expBtn').onclick=()=>{if(curProduct)save(false);const a=document.createElement('a'),u=URL.createObjectURL(new Blob([JSON.stringify(items,null,2)],{type:'application/json'}));a.href=u;a.download='products.json';a.click();URL.revokeObjectURL(u)};
+$('expBtn').onclick=()=>{
+ if(curProduct&&!save(false))return;
+ // Persist the latest form values before exporting the exact current dataset.
+ draft();
+ const json=JSON.stringify(items,null,2);
+ const a=document.createElement('a'),u=URL.createObjectURL(new Blob([json],{type:'application/json;charset=utf-8'}));
+ a.href=u;a.download='products.json';document.body.appendChild(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(u),1000);
+ msg('تم تصدير أحدث بيانات المنتجات بعد مزامنة التعديلات الحالية ✓');
+};
 $('resetBtn').onclick=()=>{if(confirm('هل تريد إلغاء كل المسودات والرجوع إلى آخر نسخة منشورة؟')){localStorage.removeItem('ma-draft');items=[];init()}};
 const b64=s=>btoa(unescape(encodeURIComponent(s)));
+function apiError(status,detail){
+ const hints={401:'الرمز غير صحيح أو منتهي الصلاحية (401). أنشئ Token صالحًا.',403:'GitHub رفض الصلاحية (403). تأكد من Contents: Read and write ومن أن Token مسموح له بهذا المستودع، أو تحقق من حدود API.',404:'المستودع أو الفرع أو الملف غير موجود (404). راجع اسم المستودع والفرع وصلاحيات Token.',409:'حدث تعارض أثناء التحديث (409). أعد تحميل لوحة الإدارة ثم حاول النشر مرة أخرى.',422:'GitHub لم يقبل بيانات الملف (422). تحقق من اسم الفرع ومحتوى الملف.'};
+ return (hints[status]||`حدث خطأ من GitHub (${status}).`)+(detail?' التفاصيل: '+detail:'');
+}
+async function apiJson(url,headers,options={}){
+ const response=await fetch(url,{...options,headers:{...headers,...(options.headers||{})},cache:'no-store'});
+ let data={};try{data=await response.json()}catch{}
+ if(!response.ok)throw Error(apiError(response.status,data.message||data.errors?.[0]?.message||''));
+ return data;
+}
 async function ghPut(path,content,token,repo,branch){
- const headers={Authorization:'Bearer '+token,Accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'};
+ const headers={Authorization:'Bearer '+token,Accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','Cache-Control':'no-cache','Content-Type':'application/json'};
  const url=`https://api.github.com/repos/${repo}/contents/${path}`;
- let sha;const get=await fetch(url+'?ref='+encodeURIComponent(branch),{headers});
- if(get.ok)sha=(await get.json()).sha;else if(get.status!==404)throw Error('قراءة '+path+' فشلت: '+(await get.json()).message);
+ let sha;
+ try{const current=await apiJson(url+'?ref='+encodeURIComponent(branch)+'&t='+Date.now(),headers);sha=current.sha}
+ catch(e){if(!String(e.message).includes('(404)'))throw e}
  const payload={message:'Update MA Odoo Solutions: '+path,content,branch,...(sha?{sha}:{})};
- const put=await fetch(url,{method:'PUT',headers,body:JSON.stringify(payload)});
- if(!put.ok)throw Error('رفع '+path+' فشل: '+((await put.json()).message||put.status));
+ const result=await apiJson(url,headers,{method:'PUT',body:JSON.stringify(payload)});
+ if(!result.commit?.sha)throw Error('GitHub لم يُرجع بيانات Commit بعد رفع '+path+'.');
+ return {commit:result.commit,content:result.content};
+}
+async function verifyProducts(content,expectedSha,token,repo,branch){
+ const headers={Authorization:'Bearer '+token,Accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','Cache-Control':'no-cache, no-store'};
+ const url=`https://api.github.com/repos/${repo}/contents/data/products.json?ref=${encodeURIComponent(branch)}&verify=${Date.now()}`;
+ const result=await apiJson(url,headers);
+ if(!result.content||!result.sha)throw Error('تم تنفيذ طلب النشر لكن تعذر قراءة الملف مرة أخرى للتحقق من التحديث.');
+ let decoded;
+ try{decoded=decodeURIComponent(escape(atob(result.content.replace(/\s/g,''))))}catch{throw Error('تعذر فك محتوى data/products.json أثناء التحقق.')}
+ if(result.sha!==expectedSha||decoded!==content)throw Error('GitHub لم يُرجع نفس النسخة التي تم رفعها. لم يتم تأكيد النشر؛ تحقق من الفرع ثم أعد المحاولة.');
+ try{JSON.parse(decoded)}catch{throw Error('تم رفع الملف لكن محتوى JSON غير صالح.')}
+ return result;
 }
 $('pubBtn').onclick=async()=>{
  if(busy)return;
  if(curProduct&&!save(false))return;
- const repo=$('repo').value.trim(),branch=$('branch').value.trim()||'main',token=$('token').value.trim();
+ const repo=$('repo').value.trim().replace(/\.git$/,''),branch=$('branch').value.trim()||'main',token=$('token').value.trim();
  if(!/^[^/\s]+\/[^/\s]+$/.test(repo))return msg('أدخل اسم المستودع بهذا الشكل: username/repository.',false);
  if(!token)return msg('أدخل GitHub Token حتى تتمكن من النشر.',false);
  if(!items.length)return msg('لا توجد منتجات جاهزة للنشر.',false);
- if(!confirm('سيتم تحديث تفاصيل المنتجات ورفع أي صور جديدة إلى المستودع '+repo+'. هل تريد المتابعة؟'))return;
- busy=true;$('pubBtn').disabled=true;msg('جارٍ تجهيز الملفات ورفعها…');
+ const target=`المستودع: ${repo} | الفرع: ${branch} | الملف: data/products.json`;
+ $('publishDetails').hidden=false;$('publishDetails').textContent='وجهة النشر المحددة: '+target;
+ if(!confirm('تأكد من وجهة النشر التالية:\n\n'+target+'\n\nسيتم تحديث الموقع المرتبط بهذا المستودع والفرع. هل تريد المتابعة؟'))return;
+ busy=true;$('pubBtn').disabled=true;msg('جارٍ التحقق من المستودع والفرع…');
  try{
+  const headers={Authorization:'Bearer '+token,Accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','Cache-Control':'no-cache'};
+  const repoInfo=await apiJson(`https://api.github.com/repos/${repo}`,headers);
+  if(repoInfo.full_name.toLowerCase()!==repo.toLowerCase())throw Error('اسم المستودع الذي أكده GitHub لا يطابق المدخل: '+repoInfo.full_name);
+  await apiJson(`https://api.github.com/repos/${repo}/branches/${encodeURIComponent(branch)}`,headers);
   for(let pi=0;pi<items.length;pi++){
    const p=items[pi];p.screenshots=p.screenshots||[];
    for(let i=0;i<p.screenshots.length;i++){
-    const s=p.screenshots[i];
-    if(s.startsWith('data:')){
+    const shot=p.screenshots[i];
+    if(shot.startsWith('data:')){
      const path=`assets/shots/${p.id}-${Date.now().toString(36)}-${i}.jpg`;
-     await ghPut(path,s.split(',')[1],token,repo,branch);p.screenshots[i]=path;
+     await ghPut(path,shot.split(',')[1],token,repo,branch);p.screenshots[i]=path;
     }
    }
   }
-  await ghPut('data/products.json',b64(JSON.stringify(items,null,2)),token,repo,branch);
+  const jsonText=JSON.stringify(items,null,2);
+  const putResult=await ghPut('data/products.json',b64(jsonText),token,repo,branch);
+  msg('تم رفع الملف. جارٍ إعادة قراءته من GitHub للتأكد…');
+  const verified=await verifyProducts(jsonText,putResult.content?.sha,token,repo,branch);
   draft();localStorage.setItem('ma-repo',repo);localStorage.setItem('ma-branch',branch);
-  $('token').value='';msg('تم النشر بنجاح ✓ قد يستغرق ظهور التحديثات على الموقع دقيقة أو دقيقتين.');
- }catch(e){msg('لم نتمكن من النشر: '+e.message,false)}
+  $('token').value='';
+  const commitUrl=putResult.commit.html_url||`https://github.com/${repo}/commit/${putResult.commit.sha}`;
+  $('publishDetails').innerHTML=`<b>تم التحقق من النشر بنجاح ✓</b><br>المستودع: <code>${esc(repo)}</code><br>الفرع: <code>${esc(branch)}</code><br>الملف: <code>data/products.json</code><br>SHA الملف: <code>${esc(verified.sha)}</code><br><a href="${esc(commitUrl)}" target="_blank" rel="noopener">فتح Commit على GitHub ↗</a><br><a href="https://github.com/${encodeURIComponent(repo.split('/')[0])}/${encodeURIComponent(repo.split('/')[1])}/blob/${encodeURIComponent(branch)}/data/products.json" target="_blank" rel="noopener">فتح ملف المنتجات ↗</a>`;
+  msg('تم النشر والتحقق من أن data/products.json على GitHub يحتوي على نفس التعديلات ✓');
+ }catch(e){msg('لم نتمكن من تأكيد النشر: '+e.message,false)}
  finally{busy=false;$('pubBtn').disabled=false}
 };
 init();
