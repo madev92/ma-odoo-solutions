@@ -1,46 +1,44 @@
 # MA Odoo Solutions — GitHub Pages Website
 
-A bilingual (English / Arabic) static website for presenting Odoo apps and business-focused ERP solutions.
+A bilingual (English / Arabic) premium static website for full Odoo implementation services and Odoo business apps.
 
-## Included
-- Responsive premium-style homepage
-- English / Arabic language toggle (saved in the visitor's browser)
-- Light / dark theme toggle (saved in the visitor's browser)
-- Contact links configured for email and WhatsApp
-- App catalogue with category filters
+## What's included
+- Premium responsive homepage with English / Arabic language switch
+- Persistent light / dark theme
+- Full Odoo implementation service section (analysis through go-live and support)
+- CMS-managed product catalogue (add, edit, remove products)
+- Product descriptions in English and Arabic, categories, Odoo version, status, feature lists, cover image and screenshot gallery
 - Detail pages for Employee Custody and Employee Loan
-- "In development" placeholders for Trade Finance and Accounting Suite
-- Contact CTA via email
-- GitHub Pages-ready static files
+- Trade Finance Suite shown as in development
+- Accounting Suite removed
+- Contact links: mohamed.ahmed.dev92@gmail.com and WhatsApp +20 155 620 6489
 
-## Before publishing
-1. Contact email and WhatsApp are configured in `index.html`: `mohamed.ahmed.dev92@gmail.com` and `+201556206489`.
-2. Review each app's description and feature list against the exact release you intend to distribute.
-3. Add your real product screenshots and demo videos when ready. The dashboard visuals currently shown are illustrative concepts, not actual Odoo screenshots.
-4. Add ZIP packages only when you are ready to publish and have confirmed the code is safe to distribute.
-5. Consider adding a custom domain later.
+## Product management dashboard
+This site uses [Pages CMS](https://pagescms.org/) to manage product content and images directly in GitHub. The CMS configuration is `.pages.yml`.
 
-## Publish with GitHub Pages
-1. Create a new **public** GitHub repository, for example `ma-odoo-solutions`.
-2. Upload all files and folders from this package to the repository root. Keep `index.html` at the root.
-3. In GitHub, open **Settings → Pages**.
-4. Under **Build and deployment**, choose **Deploy from a branch**.
-5. Select branch `main` and folder `/ (root)`, then Save.
-6. Wait for the Pages deployment. Your site will be available at:
-   `https://YOUR-GITHUB-USERNAME.github.io/ma-odoo-solutions/`
+1. Push the website files to the GitHub repository used by GitHub Pages.
+2. Open [app.pagescms.org](https://app.pagescms.org/) and sign in with the GitHub account that owns the website repository.
+3. Install/authorize the Pages CMS GitHub App for this repository only.
+4. Select the repository and the publishing branch (normally `main`).
+5. Open **Products** in the CMS. The collection edits `products/products.json`.
+6. Add, edit or delete product entries. Add a cover image and up to 12 screenshots; uploads are saved in `media/products/`.
+7. Save changes. Pages CMS commits them to GitHub, and GitHub Pages republishes the site.
 
-If you name the repository `YOUR-GITHUB-USERNAME.github.io`, the site can use the root URL:
-`https://YOUR-GITHUB-USERNAME.github.io/`.
+The public footer contains a **Manage products** shortcut to Pages CMS. Editing still requires signing in to the authorized GitHub account; visitors cannot edit products merely by opening the link.
 
-## Update the website
-Edit the HTML/CSS/JS files in GitHub or locally, then commit and push. GitHub Pages will redeploy automatically.
+## Product fields
+- Product ID: unique English slug (e.g. `employee-custody`)
+- Product names and descriptions: English and Arabic
+- Category: `hr` or `operations`
+- Odoo version and status (`available` / `development`)
+- Feature lists in both languages
+- Link to the detail page or contact section
+- Cover image and screenshots gallery
 
-## Important limitations
-GitHub Pages hosts static websites. It does not provide built-in user accounts, payments, protected downloads, a product database, or a backend. For paid downloads, use a trusted external checkout/delivery service or add a separate backend later.
+## Publish / update
+Keep `index.html` at the repository root. GitHub Pages should publish from branch `main` and folder `/(root)`. Any commit to the publishing branch triggers a new deployment.
 
-## Suggested next steps
-- Confirm brand name and contact details.
-- Add actual screenshots from Odoo.
-- Add module version / edition / dependencies / license information.
-- Add a proper privacy policy and terms before collecting visitor information or selling modules.
-- Prepare release ZIPs and documentation before enabling download links.
+## Important
+- GitHub Pages is static hosting. Pages CMS supplies the authenticated editing interface and writes changes to GitHub; it is not a custom private admin backend hosted inside this website.
+- Do not put GitHub personal access tokens or passwords in website files.
+- Add real Odoo screenshots before marketing product functionality; only advertise features verified in the release build.

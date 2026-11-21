@@ -1,0 +1,69 @@
+[
+  {
+    "id": "employee-custody",
+    "title_en": "Employee Custody Management",
+    "title_ar": "إدارة عهد الموظفين",
+    "category": "hr",
+    "version": "Odoo 18",
+    "status": "available",
+    "description_en": "Manage employee asset requests, approvals, handovers and custody balances through a structured workflow.",
+    "description_ar": "إدارة طلبات عهد الموظفين والموافقات والتسليم وأرصدة العهد من خلال دورة عمل منظمة.",
+    "features_en": [
+      "Requests",
+      "Approvals",
+      "Delivery"
+    ],
+    "features_ar": [
+      "الطلبات",
+      "الموافقات",
+      "التسليم"
+    ],
+    "link": "apps/employee-custody.html",
+    "cover": "",
+    "screenshots": []
+  },
+  {
+    "id": "employee-loan",
+    "title_en": "Employee Loan Management",
+    "title_ar": "إدارة سلف الموظفين",
+    "category": "hr",
+    "version": "Odoo 18",
+    "status": "available",
+    "description_en": "Organize employee loan requests, approvals, disbursements and installment tracking with payroll follow-up.",
+    "description_ar": "تنظيم طلبات سلف الموظفين والموافقات والصرف ومتابعة الأقساط وربطها بمتابعة الرواتب.",
+    "features_en": [
+      "Loan requests",
+      "Installments",
+      "Payroll"
+    ],
+    "features_ar": [
+      "طلبات السلف",
+      "الأقساط",
+      "الرواتب"
+    ],
+    "link": "apps/employee-loan.html",
+    "cover": "",
+    "screenshots": []
+  },
+  {
+    "id": "trade-finance",
+    "title_en": "Trade Finance Suite",
+    "title_ar": "حلول التمويل التجاري",
+    "category": "operations",
+    "version": "Odoo 18",
+    "status": "development",
+    "description_en": "Specialized workflows for letters of credit, letters of guarantee, banking facilities and related operations.",
+    "description_ar": "دورات عمل متخصصة للاعتمادات المستندية وخطابات الضمان والتسهيلات البنكية والعمليات المرتبطة بها.",
+    "features_en": [
+      "Letters of Credit",
+      "Letters of Guarantee"
+    ],
+    "features_ar": [
+      "الاعتمادات المستندية",
+      "خطابات الضمان"
+    ],
+    "link": "#contact",
+    "cover": "",
+    "screenshots": []
+  }
+]
