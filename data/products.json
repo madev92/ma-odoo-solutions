@@ -1,21 +1,75 @@
 [
-{"id":"custody","category":"hr","status":"available","version":"Odoo 18","edition":"Enterprise","implementation":true,
-"nameEn":"Employee Custody Management","nameAr":"إدارة عهد الموظفين",
-"descEn":"Manage employee asset requests, approvals, handovers and custody balances through a structured workflow.",
-"descAr":"تابع عهد الموظفين من وقت تقديم طلب العهدة والموافقة عليه، لحد تسليمها وتحديث سجل الموظف.",
-"featuresEn":["Custody categories | Organize custody items using configurable categories.","Request & approval | Create custody requests and move them through approval stages.","Delivery workflow | Record delivery to the employee and update custody balances.","Employee accountability | Keep the custody record connected to the responsible employee.","Operational visibility | Review custody status and balances from structured records.","Traceable records | Keep key actions and status changes available for follow-up."],
-"featuresAr":["تصنيف العهد | قسّم العهد إلى فئات تناسب أنواع الأصول والمعدات الموجودة في شركتك.","طلبات العهد والموافقات | سجّل طلبات العهد وتابع انتقالها خلال مراحل الموافقة المحددة.","تسليم العهدة | وثّق تسليم العهدة للموظف وحدّث سجله والأرصدة المرتبطة بها.","تحديد الموظف المسؤول | اربط كل عهدة بالموظف المسؤول عنها لتكون المسؤولية واضحة.","متابعة حالة العهد | راجع حالة كل عهدة وسجل الموظف من مكان واحد.","سجل واضح للحركات | احتفظ بسجل للعمليات والتغييرات التي تمت على العهدة لتسهيل الرجوع إليها."],
-"screenshots":[]},
-{"id":"loan","category":"hr","status":"available","version":"Odoo 18","edition":"Enterprise","implementation":true,
-"nameEn":"Employee Loan Management","nameAr":"إدارة سلف الموظفين",
-"descEn":"Organize employee loan requests, approvals, disbursements and installment tracking with payroll follow-up.",
-"descAr":"أدر سلف الموظفين من خلال دورة واضحة تشمل تقديم الطلب، والموافقة، وصرف السلفة، ومتابعة الأقساط.",
-"featuresEn":["Loan requests | Capture employee loan requests in a structured record.","Approval workflow | Route requests through the configured approval process.","Disbursement tracking | Record the loan disbursement and keep it linked to the employee.","Installment schedule | Track installments and their payment status.","Payroll follow-up | Connect installment follow-up with payroll processing where configured.","Outstanding balance | Review paid and remaining amounts from the loan record."],
-"featuresAr":["تسجيل طلبات السلف | أنشئ سجلًا لكل طلب سلفة واحتفظ بتفاصيله.","الموافقات | تابع الطلب خلال مراحل الموافقة المحددة في النظام.","تسجيل صرف السلفة | سجّل المبلغ الذي تم صرفه واربطه بملف الموظف.","جدول السداد | تابع مواعيد الأقساط والمبالغ المسددة وحالة كل قسط.","الربط بالرواتب | اربط متابعة الأقساط بإجراءات الرواتب حسب الإعدادات المتاحة في النظام.","المبلغ المتبقي | اعرف إجمالي ما تم سداده والمبلغ المتبقي على الموظف."],
-"screenshots":[]},
-{"id":"trade-finance","category":"finance","status":"coming","version":"Odoo 18","edition":"Enterprise","implementation":true,
-"nameEn":"Trade Finance Suite","nameAr":"إدارة التمويل التجاري",
-"descEn":"Specialized workflows for letters of credit and letters of guarantee, facilities and related operations.",
-"descAr":"حل متكامل لتنظيم إجراءات الاعتمادات المستندية وخطابات الضمان، ومتابعة التسهيلات والعمليات البنكية المرتبطة بها.",
-"featuresEn":[],"featuresAr":[],"screenshots":[]}
+ {
+  "id": "custody",
+  "category": "hr",
+  "status": "available",
+  "version": "Odoo 18",
+  "edition": "Enterprise",
+  "implementation": true,
+  "nameEn": "Employee Custody Management",
+  "nameAr": "إدارة عهد الموظفين",
+  "descEn": "Manage employee asset requests, approvals, handovers and custody balances through a structured workflow.",
+  "descAr": "إدارة طلبات عهد الموظفين والموافقات والتسليم وأرصدة العهد من خلال دورة عمل منظمة.",
+  "featuresEn": [
+   "Custody categories | Organize custody items using configurable categories.",
+   "Request & approval | Create custody requests and move them through approval stages.",
+   "Delivery workflow | Record delivery to the employee and update custody balances.",
+   "Employee accountability | Keep the custody record connected to the responsible employee.",
+   "Operational visibility | Review custody status and balances from structured records.",
+   "Traceable records | Keep key actions and status changes available for follow-up."
+  ],
+  "featuresAr": [
+   "فئات العهد | تنظيم عناصر العهد من خلال فئات قابلة للإعداد.",
+   "الطلب والموافقة | إنشاء طلبات العهد وتمريرها عبر مراحل الموافقة.",
+   "دورة التسليم | تسجيل تسليم العهدة للموظف وتحديث أرصدة العهد.",
+   "تحديد المسؤولية | ربط سجل العهدة بالموظف المسؤول عنها.",
+   "وضوح الحالة التشغيلية | مراجعة حالة العهد والأرصدة من خلال سجلات منظمة.",
+   "سجلات قابلة للتتبع | الاحتفاظ بالعمليات الأساسية وتغييرات الحالة للمتابعة."
+  ],
+  "screenshots": []
+ },
+ {
+  "id": "loan",
+  "category": "hr",
+  "status": "available",
+  "version": "Odoo 18",
+  "edition": "Enterprise",
+  "implementation": true,
+  "nameEn": "Employee Loan Management",
+  "nameAr": "إدارة سلف الموظفين",
+  "descEn": "Organize employee loan requests, approvals, disbursements and installment tracking with payroll follow-up.",
+  "descAr": "تنظيم طلبات سلف الموظفين والموافقات والصرف ومتابعة الأقساط وربطها بمتابعة الرواتب.",
+  "featuresEn": [
+   "Loan requests | Capture employee loan requests in a structured record.",
+   "Approval workflow | Route requests through the configured approval process.",
+   "Disbursement tracking | Record the loan disbursement and keep it linked to the employee.",
+   "Installment schedule | Track installments and their payment status.",
+   "Payroll follow-up | Connect installment follow-up with payroll processing where configured.",
+   "Outstanding balance | Review paid and remaining amounts from the loan record."
+  ],
+  "featuresAr": [
+   "طلبات السلف | تسجيل طلبات سلف الموظفين في سجلات منظمة.",
+   "دورة الموافقات | تمرير الطلبات من خلال إجراءات الموافقة المعدة.",
+   "متابعة الصرف | تسجيل صرف السلفة وربطه بالموظف.",
+   "جدول الأقساط | متابعة الأقساط وحالة السداد لكل قسط.",
+   "متابعة الرواتب | ربط متابعة الأقساط بمعالجة الرواتب وفق الإعدادات المتاحة.",
+   "الرصيد المتبقي | مراجعة المبالغ المسددة والمتبقية من سجل السلفة."
+  ],
+  "screenshots": []
+ },
+ {
+  "id": "trade-finance",
+  "category": "finance",
+  "status": "coming",
+  "version": "Odoo 18",
+  "edition": "Enterprise",
+  "implementation": true,
+  "nameEn": "Trade Finance Suite",
+  "nameAr": "حزمة التمويل التجاري",
+  "descEn": "Specialized workflows for letters of credit and letters of guarantee, facilities and related operations.",
+  "descAr": "دورات عمل متخصصة للاعتمادات المستندية وخطابات الضمان والتسهيلات والعمليات المرتبطة بها.",
+  "featuresEn": [],
+  "featuresAr": [],
+  "screenshots": []
+ }
 ]
