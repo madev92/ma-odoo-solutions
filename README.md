@@ -50,3 +50,7 @@ GitHub Pages hosts static websites. It does not provide built-in user accounts, 
 Open `admin.html` on the published website to manage the catalogue. Drafts are kept in this browser only. To publish, enter the GitHub repository as `owner/repository`, branch, and a fine-grained GitHub token with **Contents: Read and write** access to that repository. The token is held in page memory only and is not saved to browser storage. Product data is written to `data/products.json`; uploaded screenshots are stored under `assets/shots/`.
 
 Use HTTPS and keep the admin URL private. GitHub Pages is static hosting: this admin page is not an independent server-side login system. Anyone who can open the admin page can see the form, but publishing still requires your GitHub token. Never share the token or place it in website source files.
+
+
+## Google Analytics 4
+The public homepage and product detail page include Google Analytics 4 with Measurement ID `G-KVX2WXMJ0E`. After publishing, open the GA4 property and check **Reports → Realtime** to confirm visits are being received. The admin page is intentionally not tracked.

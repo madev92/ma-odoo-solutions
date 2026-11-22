@@ -1,14 +1,14 @@
 (()=>{
 const add=(k,en,ar)=>{translations.en[k]=en;translations.ar[k]=ar};
-add('navImpl','Implementation','تنفيذ Odoo بالكامل');
-add('implEyebrow','FULL IMPLEMENTATION','تنفيذ Odoo بالكامل');
-add('implTitle','Not just a module.<br><em>A complete rollout.</em>','مش مجرد تركيب نظام،<br><em>لكن تنفيذ متكامل يناسب شركتك.</em>');
-add('implIntro','Full Odoo implementation is available as a service — from business analysis and configuration to migration, training, go-live and ongoing support.','بننفّذ مشروع Odoo من البداية للنهاية: نفهم احتياجات شركتك، ونحلل إجراءات العمل، ونجهّز النظام، وننقل البيانات، وندرّب فريقك، ونرافقك خلال التشغيل وبعده.');
-add('impl1','Gap analysis','تحليل الفجوات');add('impl1d','Compare your process with standard Odoo and decide what stays standard and what needs customization.','بنراجع إجراءات شركتك مقارنةً بالإمكانيات القياسية في Odoo، ونحدد ما يمكن تنفيذه بالإعدادات وما يحتاج إلى تخصيص.');
-add('impl2','Setup & configuration','إعداد النظام وتهيئته');add('impl2d','Install, configure and adapt the product to your company structure, roles and approvals.','نجهّز Odoo بما يتناسب مع هيكل شركتك، وصلاحيات المستخدمين، ودورات الموافقات.');
-add('impl3','Data migration','ترحيل البيانات');add('impl3d','Move records from your current system and validate them before go-live.','ننقل بياناتك من النظام الحالي، ونراجعها ونتأكد من جاهزيتها قبل بدء التشغيل الفعلي.');
-add('impl4','Training & support','التدريب والدعم');add('impl4d','Train your users and stay available after go-live until the process runs smoothly.','ندرّب فريقك على استخدام النظام، ونوفر الدعم بعد التشغيل لضمان استقرار العمل.');
-add('implBadge','Full implementation available','يمكن تنفيذه ضمن مشروع Odoo متكامل');add('shots','SCREENSHOTS','لقطات الشاشة');add('soon','IN DEVELOPMENT','قيد التطوير');
+add('navImpl','Implementation','التنفيذ الكامل');
+add('implEyebrow','FULL IMPLEMENTATION','التنفيذ الكامل');
+add('implTitle','Not just a module.<br><em>A complete rollout.</em>','مش مجرد موديول،<br><em>ده تنفيذ كامل.</em>');
+add('implIntro','Full Odoo implementation is available as a service — from business analysis and configuration to migration, training, go-live and ongoing support.','متاح تنفيذ Odoo بشكل كامل — من تحليل الأعمال والإعداد وترحيل البيانات إلى التدريب والتشغيل والدعم المستمر.');
+add('impl1','Gap analysis','تحليل الفجوات');add('impl1d','Compare your process with standard Odoo and decide what stays standard and what needs customization.','نقارن عمليتك بالـ Standard في Odoo ونحدد إيه يفضل Standard وإيه محتاج تخصيص.');
+add('impl2','Setup & configuration','التثبيت والإعداد');add('impl2d','Install, configure and adapt the product to your company structure, roles and approvals.','تثبيت وإعداد المنتج حسب هيكل الشركة والصلاحيات والموافقات.');
+add('impl3','Data migration','ترحيل البيانات');add('impl3d','Move records from your current system and validate them before go-live.','نقل البيانات من نظامك الحالي ومراجعتها قبل التشغيل.');
+add('impl4','Training & support','التدريب والدعم');add('impl4d','Train your users and stay available after go-live until the process runs smoothly.','تدريب المستخدمين والدعم بعد التشغيل لحد ما الدورة تمشي بسلاسة.');
+add('implBadge','Full implementation available','متاح بتنفيذ كامل');add('shots','SCREENSHOTS','لقطات الشاشة');add('soon','IN DEVELOPMENT','قيد التطوير');
 add('notFound','Product not found.','المنتج غير موجود.');add('allCats','All apps','كل التطبيقات');
 const CATS={hr:['HR & Payroll','الموارد البشرية والرواتب'],finance:['Finance','المالية'],operations:['Operations','العمليات'],other:['Other','أخرى']};
 const L=()=>document.documentElement.lang==='ar'?1:0;

@@ -29,31 +29,30 @@ body{font-family:Cairo,sans-serif;background:var(--paper)}.admin-top{border-bott
 </head>
 <body class="arabic">
 <header class="site-header admin-top"><div class="container nav-wrap">
-<a class="brand" href="index.html"><span class="brand-mark">MA</span><span class="brand-copy"><strong>لوحة التحكم</strong><small>إدارة منتجات وحلول MA Odoo Solutions</small></span></a>
+<a class="brand" href="index.html"><span class="brand-mark">MA</span><span class="brand-copy"><strong>لوحة التحكم</strong><small>إدارة منتجات MA Odoo Solutions</small></span></a>
 <div class="admin-top-actions"><button class="theme-switch" id="themeToggle" type="button"><span class="theme-icon">☾</span><span class="theme-label">Dark</span></button><a class="button button-small button-primary" href="index.html">عرض الموقع ↗</a></div>
 </div></header>
 <main class="container admin-wrap">
 <aside class="panel admin-sidebar">
-<div class="admin-head"><div><h2>المنتجات</h2><p>إدارة المنتجات وتفاصيلها</p></div></div>
-<button type="button" class="btn2" id="newBtn" style="width:100%;background:var(--blue);color:#fff;border-color:var(--blue)">＋ إضافة منتج</button>
+<div class="admin-head"><div><h2>المنتجات</h2><p>إدارة الكتالوج والمحتوى</p></div></div>
+<button class="btn2" id="newBtn" style="width:100%;background:var(--blue);color:#fff;border-color:var(--blue)">＋ إضافة منتج جديد</button>
 <div class="admin-list" id="list" style="margin-top:14px"></div>
 <hr style="border:0;border-top:1px solid var(--line);margin:20px 0">
 <h2>النشر على GitHub</h2>
-<label for="repo">مستودع GitHub (اسم المستخدم/المستودع)</label><input id="repo" placeholder="username/ma-odoo-solutions" dir="ltr" autocomplete="off">
+<label for="repo">اسم المستخدم / المستودع</label><input id="repo" placeholder="username/ma-odoo-solutions" dir="ltr" autocomplete="off">
 <label for="branch">Branch</label><input id="branch" value="main" dir="ltr" autocomplete="off">
 <label for="token">GitHub Personal Access Token</label><input id="token" type="password" dir="ltr" placeholder="github_pat_..." autocomplete="new-password">
-<p class="hint">أنشئ Fine-grained token بصلاحية Contents: Read and write لهذا المستودع فقط. لن يتم حفظ الرمز في المتصفح أو إضافته إلى ملفات الموقع.</p>
-<div class="btns"><button type="button" class="btn2" id="pubBtn" style="background:var(--blue);color:#fff;border-color:var(--blue)">نشر التحديثات</button><button type="button" class="btn2" id="expBtn">تصدير JSON</button><button type="button" class="btn2" id="resetBtn">التراجع عن المسودة</button></div>
+<p class="hint">استخدم Fine-grained token بصلاحية Contents: Read and write لهذا المستودع فقط. الرمز لا يتم حفظه في المتصفح أو داخل ملفات الموقع.</p>
+<div class="btns"><button class="btn2" id="pubBtn" style="background:var(--blue);color:#fff;border-color:var(--blue)">نشر التغييرات</button><button class="btn2" id="expBtn">تصدير JSON</button><button class="btn2" id="resetBtn">إلغاء المسودة</button></div>
 <div id="msg" role="status" aria-live="polite"></div>
-<div id="publishDetails" class="admin-notice" hidden></div>
-<div class="admin-notice">يتم حفظ المسودات على هذا المتصفح فقط. عند النشر، تُرفع تفاصيل المنتجات والصور إلى GitHub، ثم يُحدّث GitHub Pages الموقع تلقائيًا. ملحوظة: لوحة التحكم لا تحتوي على نظام تسجيل دخول مستقل؛ لذلك تعتمد صلاحية النشر على أمان GitHub Token.</div>
+<div class="admin-notice">المسودات محفوظة في هذا المتصفح فقط. عند النشر تُرفع بيانات المنتجات والصور إلى GitHub، ثم يقوم GitHub Pages بتحديث الموقع تلقائيًا. لوحة التحكم ليست نظام تسجيل دخول مستقلًا؛ حماية النشر تعتمد على صلاحيات GitHub Token.</div>
 </aside>
 <section class="panel" id="formPanel"><div class="admin-empty">جاري تحميل المنتجات…</div></section>
 </main>
 <script src="assets/site.js"></script>
 <script>
 'use strict';
-const CATS={hr:'الموارد البشرية والرواتب',finance:'المالية والتجارة',operations:'العمليات',other:'أخرى'};
+const CATS={hr:'الموارد البشرية والرواتب',finance:'التمويل والتجارة',operations:'العمليات',other:'أخرى'};
 let items=[],cur=null,busy=false;const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const msg=(t,ok=true)=>{$('msg').textContent=t;$('msg').style.color=ok?'#1a8f7a':'#d6455d'};
@@ -63,7 +62,7 @@ async function init(){
  const d=localStorage.getItem('ma-draft');
  if(d){try{items=JSON.parse(d)}catch{localStorage.removeItem('ma-draft')}}
  if(!items.length){try{const r=await fetch('data/products.json?v='+Date.now());if(!r.ok)throw Error('HTTP '+r.status);items=await r.json()}catch(e){items=[];msg('تعذر تحميل المنتجات: '+e.message,false)}}
- $('repo').value=localStorage.getItem('ma-repo')||'momo46060/ma-odoo-solutions';
+ $('repo').value=localStorage.getItem('ma-repo')||'';
  $('branch').value=localStorage.getItem('ma-branch')||'main';
  cur=items[0]?.id||null;render();
 }
@@ -80,34 +79,29 @@ function field(k,label,type='input',value=null){
 let curProduct=null;
 function form(){
  curProduct=items.find(x=>x.id===cur);
- if(!curProduct){$('formPanel').innerHTML='<div class="admin-empty">اختر منتجًا من القائمة، أو اضغط «إضافة منتج».</div>';return}
+ if(!curProduct){$('formPanel').innerHTML='<div class="admin-empty">اختار منتجًا من القائمة أو اضغط «إضافة منتج جديد».</div>';return}
  const p=curProduct;
  $('formPanel').innerHTML=`
- <div class="admin-head"><div><h1>تفاصيل المنتج</h1><p>حدّث البيانات المطلوبة، ثم احفظها كمسودة قبل نشرها على الموقع.</p></div><span class="category-tag">${p.status==='coming'?'قيد التطوير':'منتج'}</span></div>
- <h3 class="admin-section-title">البيانات الأساسية</h3>
- <div class="row2"><div>${field('nameAr','اسم المنتج بالعربية')}</div><div>${field('nameEn','Product name (English)')}</div></div>
+ <div class="admin-head"><div><h1>بيانات المنتج</h1><p>عدّل التفاصيل ثم احفظها كمسودة قبل النشر.</p></div><span class="category-tag">${p.status==='coming'?'قيد التطوير':'منتج'}</span></div>
+ <h3 class="admin-section-title">المعلومات الأساسية</h3>
+ <div class="row2"><div>${field('nameAr','اسم المنتج بالعربي')}</div><div>${field('nameEn','Product name (English)')}</div></div>
  <div class="row2"><div><label for="f_category">الفئة</label><select id="f_category">${Object.entries(CATS).map(([k,v])=>`<option value="${k}" ${p.category===k?'selected':''}>${v}</option>`).join('')}</select></div><div><label for="f_status">حالة المنتج</label><select id="f_status"><option value="available" ${p.status!=='coming'?'selected':''}>متاح</option><option value="coming" ${p.status==='coming'?'selected':''}>قيد التطوير</option></select></div></div>
  <div class="row2"><div>${field('version','إصدار Odoo')}</div><div>${field('edition','Edition')}</div></div>
  <label style="display:flex;gap:9px;align-items:center"><input type="checkbox" id="f_implementation" ${p.implementation?'checked':''}> متاح بخدمة Full Implementation</label>
  <h3 class="admin-section-title">الوصف والمميزات</h3>
- <div class="row2"><div>${field('descAr','الوصف بالعربية','textarea')}</div><div>${field('descEn','Description (English)','textarea')}</div></div>
- <div class="row2"><div>${field('featuresAr','المميزات بالعربية — اكتب كل ميزة في سطر: العنوان | الشرح','textarea')}</div><div>${field('featuresEn','Features (English) — one per line: Title | description','textarea')}</div></div>
- <h3 class="admin-section-title">صور المنتج ولقطات من داخل النظام</h3>
- <label for="shots">اختر صورة واحدة أو أكثر (سيتم تقليل حجم الصور تلقائيًا)</label><input type="file" id="shots" accept="image/png,image/jpeg,image/webp" multiple>
+ <div class="row2"><div>${field('descAr','الوصف بالعربي','textarea')}</div><div>${field('descEn','Description (English)','textarea')}</div></div>
+ <div class="row2"><div>${field('featuresAr','المميزات بالعربي — كل سطر: العنوان | الشرح','textarea')}</div><div>${field('featuresEn','Features (English) — one per line: Title | description','textarea')}</div></div>
+ <h3 class="admin-section-title">صور المنتج ولقطات الشاشة</h3>
+ <label for="shots">اختار صورة أو أكثر (سيتم ضغط الصور تلقائيًا)</label><input type="file" id="shots" accept="image/png,image/jpeg,image/webp" multiple>
  <div class="thumbs">${(p.screenshots||[]).map((s,i)=>`<div class="thumb"><img src="${esc(s)}" alt="لقطة شاشة ${i+1}"><button type="button" data-i="${i}" title="حذف الصورة" aria-label="حذف الصورة">×</button><span>${esc(s.split('/').pop())}</span></div>`).join('')}</div>
- <div class="btns"><button class="btn2" id="saveBtn" style="background:var(--blue);color:#fff;border-color:var(--blue)">حفظ المسودة</button><button class="btn2 danger" id="delBtn">حذف المنتج</button></div>`;
+ <div class="btns"><button class="btn2" id="saveBtn" style="background:var(--blue);color:#fff;border-color:var(--blue)">حفظ كمسودة</button><button class="btn2 danger" id="delBtn">حذف المنتج</button></div>`;
  $('saveBtn').onclick=save;
- // Keep the in-memory product and local draft synchronized while the user edits.
- $('formPanel').querySelectorAll('input:not([type=file]),textarea,select').forEach(el=>{
-  el.addEventListener('input',()=>save(false));
-  el.addEventListener('change',()=>save(false));
- });
- $('delBtn').onclick=()=>{if(confirm('هل أنت متأكد من حذف المنتج؟ لن يختفي من الموقع إلا بعد النشر.')){items=items.filter(x=>x.id!==cur);cur=items[0]?.id||null;draft();render();msg('تم حذف المنتج من المسودة. انشر التحديثات لتطبيق التغيير على الموقع.')}};
- document.querySelectorAll('.thumbs button').forEach(b=>b.onclick=()=>{save(false);p.screenshots.splice(+b.dataset.i,1);draft();form();msg('تم حذف الصورة من المسودة.')});
+ $('delBtn').onclick=()=>{if(confirm('هل أنت متأكد من حذف المنتج؟ لن يختفي من الموقع إلا بعد النشر.')){items=items.filter(x=>x.id!==cur);cur=items[0]?.id||null;draft();render();msg('تم حذف المنتج من المسودة. انشر التغييرات لتحديث الموقع.')}};
+ document.querySelectorAll('.thumbs button').forEach(b=>b.onclick=()=>{save(false);p.screenshots.splice(+b.dataset.i,1);draft();form();msg('تم حذف الصورة من المسودة')});
  $('shots').onchange=async e=>{
   const files=[...e.target.files];if(!files.length)return;
   try{for(const file of files){if(file.size>12*1024*1024)throw Error('حجم الصورة أكبر من 12MB: '+file.name);p.screenshots=p.screenshots||[];p.screenshots.push(await shrink(file))}
-   draft();form();msg('تمت إضافة الصور إلى المسودة. اضغط حفظ المسودة لتأكيد باقي التعديلات.');
+   draft();form();msg('تمت إضافة الصور إلى المسودة. اضغط حفظ كمسودة لتأكيد باقي التعديلات.');
   }catch(err){msg(err.message,false)}
  };
 }
@@ -115,96 +109,52 @@ function save(show=true){
  const p=curProduct;if(!p)return;
  const g=k=>$('f_'+k).value.trim(),lines=k=>g(k).split('\n').map(s=>s.trim()).filter(Boolean);
  Object.assign(p,{nameAr:g('nameAr'),nameEn:g('nameEn'),category:$('f_category').value,status:$('f_status').value,version:g('version'),edition:g('edition'),implementation:$('f_implementation').checked,descAr:g('descAr'),descEn:g('descEn'),featuresAr:lines('featuresAr'),featuresEn:lines('featuresEn')});
- if(!p.nameEn&&!p.nameAr){msg('أدخل اسم المنتج بالعربية أو الإنجليزية.',false);return false}
- draft();if(show){render();msg('تم حفظ المسودة. اضغط «نشر التحديثات» لعرض التغييرات على الموقع.')}return true;
+ if(!p.nameEn&&!p.nameAr){msg('اكتب اسم المنتج بالعربي أو الإنجليزي.',false);return false}
+ draft();if(show){render();msg('تم الحفظ كمسودة. اضغط «نشر التغييرات» لإظهارها على الموقع.')}return true;
 }
 $('newBtn').onclick=()=>{
  const entered=prompt('اكتب اسم المنتج بالإنجليزية أو رمزًا مختصرًا:','new-product');if(entered===null)return;const base=makeSlug(entered);
- if(items.some(p=>p.id===base)){msg('هذا المعرّف مستخدم بالفعل. اختر اسمًا آخر.',false);return}
+ if(items.some(p=>p.id===base)){msg('المعرّف موجود بالفعل. اختر اسمًا مختلفًا.',false);return}
  const p={id:base,category:'hr',status:'available',version:'Odoo 18',edition:'Enterprise',implementation:true,nameAr:'',nameEn:'New product',descAr:'',descEn:'',featuresAr:[],featuresEn:[],screenshots:[]};
  items.push(p);cur=p.id;draft();render();
 };
 function shrink(file){return new Promise((resolve,reject)=>{const im=new Image,fr=new FileReader;fr.onerror=()=>reject(Error('تعذر قراءة الصورة'));fr.onload=()=>{im.onerror=()=>reject(Error('صيغة صورة غير مدعومة'));im.onload=()=>{const w=Math.min(1500,im.width),h=Math.round(im.height*w/im.width),c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(im,0,0,w,h);resolve(c.toDataURL('image/jpeg',.8))};im.src=fr.result};fr.readAsDataURL(file)})}
-$('expBtn').onclick=()=>{
- if(curProduct&&!save(false))return;
- // Persist the latest form values before exporting the exact current dataset.
- draft();
- const json=JSON.stringify(items,null,2);
- const a=document.createElement('a'),u=URL.createObjectURL(new Blob([json],{type:'application/json;charset=utf-8'}));
- a.href=u;a.download='products.json';document.body.appendChild(a);a.click();a.remove();
- setTimeout(()=>URL.revokeObjectURL(u),1000);
- msg('تم تصدير أحدث بيانات المنتجات بعد مزامنة التعديلات الحالية ✓');
-};
-$('resetBtn').onclick=()=>{if(confirm('هل تريد إلغاء كل المسودات والرجوع إلى آخر نسخة منشورة؟')){localStorage.removeItem('ma-draft');items=[];init()}};
+$('expBtn').onclick=()=>{if(curProduct)save(false);const a=document.createElement('a'),u=URL.createObjectURL(new Blob([JSON.stringify(items,null,2)],{type:'application/json'}));a.href=u;a.download='products.json';a.click();URL.revokeObjectURL(u)};
+$('resetBtn').onclick=()=>{if(confirm('إلغاء كل المسودات والعودة لآخر نسخة منشورة؟')){localStorage.removeItem('ma-draft');items=[];init()}};
 const b64=s=>btoa(unescape(encodeURIComponent(s)));
-function apiError(status,detail){
- const hints={401:'الرمز غير صحيح أو منتهي الصلاحية (401). أنشئ Token صالحًا.',403:'GitHub رفض الصلاحية (403). تأكد من Contents: Read and write ومن أن Token مسموح له بهذا المستودع، أو تحقق من حدود API.',404:'المستودع أو الفرع أو الملف غير موجود (404). راجع اسم المستودع والفرع وصلاحيات Token.',409:'حدث تعارض أثناء التحديث (409). أعد تحميل لوحة الإدارة ثم حاول النشر مرة أخرى.',422:'GitHub لم يقبل بيانات الملف (422). تحقق من اسم الفرع ومحتوى الملف.'};
- return (hints[status]||`حدث خطأ من GitHub (${status}).`)+(detail?' التفاصيل: '+detail:'');
-}
-async function apiJson(url,headers,options={}){
- const response=await fetch(url,{...options,headers:{...headers,...(options.headers||{})},cache:'no-store'});
- let data={};try{data=await response.json()}catch{}
- if(!response.ok)throw Error(apiError(response.status,data.message||data.errors?.[0]?.message||''));
- return data;
-}
 async function ghPut(path,content,token,repo,branch){
- const headers={Authorization:'Bearer '+token,Accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','Cache-Control':'no-cache','Content-Type':'application/json'};
+ const headers={Authorization:'Bearer '+token,Accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'};
  const url=`https://api.github.com/repos/${repo}/contents/${path}`;
- let sha;
- try{const current=await apiJson(url+'?ref='+encodeURIComponent(branch)+'&t='+Date.now(),headers);sha=current.sha}
- catch(e){if(!String(e.message).includes('(404)'))throw e}
+ let sha;const get=await fetch(url+'?ref='+encodeURIComponent(branch),{headers});
+ if(get.ok)sha=(await get.json()).sha;else if(get.status!==404)throw Error('قراءة '+path+' فشلت: '+(await get.json()).message);
  const payload={message:'Update MA Odoo Solutions: '+path,content,branch,...(sha?{sha}:{})};
- const result=await apiJson(url,headers,{method:'PUT',body:JSON.stringify(payload)});
- if(!result.commit?.sha)throw Error('GitHub لم يُرجع بيانات Commit بعد رفع '+path+'.');
- return {commit:result.commit,content:result.content};
-}
-async function verifyProducts(content,expectedSha,token,repo,branch){
- const headers={Authorization:'Bearer '+token,Accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','Cache-Control':'no-cache, no-store'};
- const url=`https://api.github.com/repos/${repo}/contents/data/products.json?ref=${encodeURIComponent(branch)}&verify=${Date.now()}`;
- const result=await apiJson(url,headers);
- if(!result.content||!result.sha)throw Error('تم تنفيذ طلب النشر لكن تعذر قراءة الملف مرة أخرى للتحقق من التحديث.');
- let decoded;
- try{decoded=decodeURIComponent(escape(atob(result.content.replace(/\s/g,''))))}catch{throw Error('تعذر فك محتوى data/products.json أثناء التحقق.')}
- if(result.sha!==expectedSha||decoded!==content)throw Error('GitHub لم يُرجع نفس النسخة التي تم رفعها. لم يتم تأكيد النشر؛ تحقق من الفرع ثم أعد المحاولة.');
- try{JSON.parse(decoded)}catch{throw Error('تم رفع الملف لكن محتوى JSON غير صالح.')}
- return result;
+ const put=await fetch(url,{method:'PUT',headers,body:JSON.stringify(payload)});
+ if(!put.ok)throw Error('رفع '+path+' فشل: '+((await put.json()).message||put.status));
 }
 $('pubBtn').onclick=async()=>{
  if(busy)return;
  if(curProduct&&!save(false))return;
- const repo=$('repo').value.trim().replace(/\.git$/,''),branch=$('branch').value.trim()||'main',token=$('token').value.trim();
- if(!/^[^/\s]+\/[^/\s]+$/.test(repo))return msg('أدخل اسم المستودع بهذا الشكل: username/repository.',false);
- if(!token)return msg('أدخل GitHub Token حتى تتمكن من النشر.',false);
- if(!items.length)return msg('لا توجد منتجات جاهزة للنشر.',false);
- const target=`المستودع: ${repo} | الفرع: ${branch} | الملف: data/products.json`;
- $('publishDetails').hidden=false;$('publishDetails').textContent='وجهة النشر المحددة: '+target;
- if(!confirm('تأكد من وجهة النشر التالية:\n\n'+target+'\n\nسيتم تحديث الموقع المرتبط بهذا المستودع والفرع. هل تريد المتابعة؟'))return;
- busy=true;$('pubBtn').disabled=true;msg('جارٍ التحقق من المستودع والفرع…');
+ const repo=$('repo').value.trim(),branch=$('branch').value.trim()||'main',token=$('token').value.trim();
+ if(!/^[^/\s]+\/[^/\s]+$/.test(repo))return msg('اكتب المستودع بالشكل username/repository.',false);
+ if(!token)return msg('أدخل GitHub Token للنشر.',false);
+ if(!items.length)return msg('لا توجد منتجات للنشر.',false);
+ if(!confirm('سيتم تحديث بيانات المنتجات ورفع أي صور جديدة إلى المستودع '+repo+'. هل تريد المتابعة؟'))return;
+ busy=true;$('pubBtn').disabled=true;msg('جاري تجهيز ورفع الملفات…');
  try{
-  const headers={Authorization:'Bearer '+token,Accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','Cache-Control':'no-cache'};
-  const repoInfo=await apiJson(`https://api.github.com/repos/${repo}`,headers);
-  if(repoInfo.full_name.toLowerCase()!==repo.toLowerCase())throw Error('اسم المستودع الذي أكده GitHub لا يطابق المدخل: '+repoInfo.full_name);
-  await apiJson(`https://api.github.com/repos/${repo}/branches/${encodeURIComponent(branch)}`,headers);
   for(let pi=0;pi<items.length;pi++){
    const p=items[pi];p.screenshots=p.screenshots||[];
    for(let i=0;i<p.screenshots.length;i++){
-    const shot=p.screenshots[i];
-    if(shot.startsWith('data:')){
+    const s=p.screenshots[i];
+    if(s.startsWith('data:')){
      const path=`assets/shots/${p.id}-${Date.now().toString(36)}-${i}.jpg`;
-     await ghPut(path,shot.split(',')[1],token,repo,branch);p.screenshots[i]=path;
+     await ghPut(path,s.split(',')[1],token,repo,branch);p.screenshots[i]=path;
     }
    }
   }
-  const jsonText=JSON.stringify(items,null,2);
-  const putResult=await ghPut('data/products.json',b64(jsonText),token,repo,branch);
-  msg('تم رفع الملف. جارٍ إعادة قراءته من GitHub للتأكد…');
-  const verified=await verifyProducts(jsonText,putResult.content?.sha,token,repo,branch);
+  await ghPut('data/products.json',b64(JSON.stringify(items,null,2)),token,repo,branch);
   draft();localStorage.setItem('ma-repo',repo);localStorage.setItem('ma-branch',branch);
-  $('token').value='';
-  const commitUrl=putResult.commit.html_url||`https://github.com/${repo}/commit/${putResult.commit.sha}`;
-  $('publishDetails').innerHTML=`<b>تم التحقق من النشر بنجاح ✓</b><br>المستودع: <code>${esc(repo)}</code><br>الفرع: <code>${esc(branch)}</code><br>الملف: <code>data/products.json</code><br>SHA الملف: <code>${esc(verified.sha)}</code><br><a href="${esc(commitUrl)}" target="_blank" rel="noopener">فتح Commit على GitHub ↗</a><br><a href="https://github.com/${encodeURIComponent(repo.split('/')[0])}/${encodeURIComponent(repo.split('/')[1])}/blob/${encodeURIComponent(branch)}/data/products.json" target="_blank" rel="noopener">فتح ملف المنتجات ↗</a>`;
-  msg('تم النشر والتحقق من أن data/products.json على GitHub يحتوي على نفس التعديلات ✓');
- }catch(e){msg('لم نتمكن من تأكيد النشر: '+e.message,false)}
+  $('token').value='';msg('تم النشر بنجاح ✓ قد يستغرق تحديث GitHub Pages دقيقة أو دقيقتين.');
+ }catch(e){msg('تعذر النشر: '+e.message,false)}
  finally{busy=false;$('pubBtn').disabled=false}
 };
 init();
