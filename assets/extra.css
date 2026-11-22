@@ -87,3 +87,11 @@ main [id], footer [id]{scroll-margin-top:112px}
 .arabic .service-card,.arabic .knowledge-card{text-align:right}.arabic .service-no{right:auto;left:22px}.arabic .service-card h3{max-width:100%}.arabic .knowledge-tag{letter-spacing:0}.arabic .tailored-points article,.arabic .stories-principles div{direction:rtl}
 @media(max-width:900px){.service-grid,.knowledge-grid{grid-template-columns:repeat(2,1fr)}.tailored-grid,.stories-inner{grid-template-columns:1fr;gap:38px}}
 @media(max-width:560px){.service-grid,.knowledge-grid{grid-template-columns:1fr}.service-card,.knowledge-card{min-height:unset}.tailored-grid,.stories-inner{gap:28px}.service-card{padding:23px}.knowledge-card{padding:23px}}
+
+/* Logo */
+.brand{min-width:auto}.brand-logo{height:62px;width:auto;display:block}.logo-on-dark{display:none}
+:root[data-theme="dark"] .logo-on-light{display:none}:root[data-theme="dark"] .logo-on-dark{display:block}
+.footer-brand .brand-logo{height:48px}
+.about-mark .about-logo{width:min(220px,70%);height:auto;position:relative;z-index:1}
+.about-mark .logo-on-dark{display:none}:root[data-theme="dark"] .about-mark .logo-on-dark{display:block}
+@media(max-width:680px){.brand-logo{height:50px}}
