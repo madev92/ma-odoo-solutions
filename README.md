@@ -1,9 +1,11 @@
 # MA Odoo Solutions — GitHub Pages Website
 
-A bilingual (English / Arabic) static website for presenting Odoo apps and business-focused ERP solutions.
+A bilingual (English / Arabic) static website for presenting Odoo apps, consulting services and business-focused ERP solutions.
 
 ## Included
 - Responsive premium-style homepage
+- Consulting-led homepage flow: services, app catalogue, full implementation, tailored solutions, approach, knowledge hub, founder-led introduction and project principles
+- Bilingual service, tailored-solution and knowledge sections
 - English / Arabic language toggle (saved in the visitor's browser)
 - Light / dark theme toggle (saved in the visitor's browser)
 - Contact links configured for email and WhatsApp
@@ -54,3 +56,7 @@ Use HTTPS and keep the admin URL private. GitHub Pages is static hosting: this a
 
 ## Google Analytics 4
 The public homepage and product detail page include Google Analytics 4 with Measurement ID `G-KVX2WXMJ0E`. After publishing, open the GA4 property and check **Reports → Realtime** to confirm visits are being received. The admin page is intentionally not tracked.
+
+
+## V6 homepage structure
+The homepage now presents the business in this order: Hero, Services, Odoo Apps, Full Implementation, Tailored Solutions, Our Approach, Knowledge Hub, About MA Odoo Solutions, Project Principles, and Contact. The knowledge cards are editorial topic previews; video embeds and client case studies should be added only when real material is ready and approved for publication.
