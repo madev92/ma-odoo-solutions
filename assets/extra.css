@@ -60,3 +60,13 @@ main [id], footer [id]{scroll-margin-top:112px}
 .button-primary,.contact-actions .button-primary{background:linear-gradient(135deg,#a77d48,#c5a16e)!important;border-color:#a77d48!important;color:#fff!important;box-shadow:0 10px 24px rgba(126,96,58,.24)!important}
 .button-primary:hover,.contact-actions .button-primary:hover{background:linear-gradient(135deg,#8e683d,#ad874f)!important;border-color:#8e683d!important}
 .contact-actions .button{min-height:48px;padding:14px 18px}
+
+/* V5: consistent navy / bronze / teal identity across every page */
+:root{--blue:#b18a58;--blue2:#c9a979;--accent:#b18a58;--accent-soft:#f4eee4}
+.brand-mark{box-shadow:0 8px 20px rgba(126,96,58,.18)!important}
+.admin-list .item.sel{background:#f6f1e8!important;border-color:#c9a979!important}
+.admin-notice{background:rgba(177,138,88,.10)!important;color:var(--muted)}
+.theme-switch:hover{border-color:#c9a979!important;background:#f6f1e8!important}
+:root[data-theme="dark"] .admin-list .item.sel{background:#332b20!important;border-color:#8e6b42!important}
+:root[data-theme="dark"] .admin-notice{background:rgba(177,138,88,.14)!important;color:#d6c6ad!important}
+:root[data-theme="dark"] .theme-switch:hover{background:#332b20!important;border-color:#8e6b42!important}
