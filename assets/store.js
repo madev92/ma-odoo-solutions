@@ -9,7 +9,8 @@ add('impl2','Setup & configuration','التثبيت والإعداد');add('impl
 add('impl3','Data migration','ترحيل البيانات');add('impl3d','Move records from your current system and validate them before go-live.','نقل البيانات من نظامك الحالي ومراجعتها قبل التشغيل.');
 add('impl4','Training & support','التدريب والدعم');add('impl4d','Train your users and stay available after go-live until the process runs smoothly.','تدريب المستخدمين والدعم بعد التشغيل لحد ما الدورة تمشي بسلاسة.');
 add('implBadge','Full implementation available','متاح بتنفيذ كامل');add('shots','SCREENSHOTS','لقطات الشاشة');add('soon','IN DEVELOPMENT','قيد التطوير');
-add('notFound','Product not found.','المنتج غير موجود.');add('allCats','All apps','كل التطبيقات');
+add('notFound','Product not found.','المنتج غير موجود.');
+add('viewDetails','View solution details','اعرف تفاصيل الحل');add('allCats','All apps','كل التطبيقات');
 const CATS={hr:['HR & Payroll','الموارد البشرية والرواتب'],finance:['Finance','المالية'],operations:['Operations','العمليات'],other:['Other','أخرى']};
 const L=()=>document.documentElement.lang==='ar'?1:0;
 const E=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

@@ -44,3 +44,19 @@ main [id], footer [id]{scroll-margin-top:112px}
 .button-primary:hover{background:linear-gradient(135deg,#967043,#b18a58)}
 .brand-mark{background:linear-gradient(135deg,#172b4a,#9a784f);box-shadow:0 8px 20px rgba(126,96,58,.18)}
 :root[data-theme="dark"] .filter.active,:root[data-theme="dark"] .filter:hover{background:#8e6b42;border-color:#8e6b42}
+
+
+/* V4: remove remaining lavender casts and make module actions unmistakable */
+.app-art.custody-art,.app-art.loan-art,.app-art.trade-art,.app-art.accounting-art{background-color:#f3f0e9}
+.app-art.custody-art{background:radial-gradient(circle at 80% 20%,#e5efeb,transparent 35%),linear-gradient(135deg,#f0ece4,#f7f5f0)}
+.app-art.loan-art{background:radial-gradient(circle at 20% 80%,#eee5d8,transparent 40%),linear-gradient(135deg,#f3f0e9,#faf9f6)}
+.app-art.trade-art{background:linear-gradient(135deg,#f0ece4,#faf9f6)}
+.app-art.accounting-art{background:linear-gradient(135deg,#eaf1ed,#f7f8f5)}
+.card-link{display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;margin-top:20px;padding:13px 16px;border:1px solid #17253a;border-radius:9px;background:#17253a;color:#fff;font-size:12px;font-weight:800;transition:background .2s,border-color .2s,transform .2s,box-shadow .2s}
+.card-link b{display:grid;place-items:center;width:27px;height:27px;border-radius:7px;background:#b18a58;color:#fff;font-size:16px;line-height:1}
+.card-link:hover{background:#8e6b42;border-color:#8e6b42;color:#fff;transform:translateY(-2px);box-shadow:0 9px 20px rgba(126,96,58,.2)}
+.card-link:hover b{background:#fff;color:#8e6b42}
+.card-link:focus-visible{outline:3px solid rgba(177,138,88,.55);outline-offset:3px}
+.button-primary,.contact-actions .button-primary{background:linear-gradient(135deg,#a77d48,#c5a16e)!important;border-color:#a77d48!important;color:#fff!important;box-shadow:0 10px 24px rgba(126,96,58,.24)!important}
+.button-primary:hover,.contact-actions .button-primary:hover{background:linear-gradient(135deg,#8e683d,#ad874f)!important;border-color:#8e683d!important}
+.contact-actions .button{min-height:48px;padding:14px 18px}
