@@ -60,3 +60,9 @@ The public homepage and product detail page include Google Analytics 4 with Meas
 
 ## V6 homepage structure
 The homepage now presents the business in this order: Hero, Services, Odoo Apps, Full Implementation, Tailored Solutions, Our Approach, Knowledge Hub, About MA Odoo Solutions, Project Principles, and Contact. The knowledge cards are editorial topic previews; video embeds and client case studies should be added only when real material is ready and approved for publication.
+
+## Version 7 — bilingual coverage
+- Completed Arabic and English translations for the homepage sections and the illustrative ERP dashboard labels.
+- Localized the theme toggle labels and page metadata/title where applicable.
+- Kept the selected public-site language across the home and product detail pages.
+- Preserved the Arabic-only admin interface language and its RTL layout when opening the admin page.
